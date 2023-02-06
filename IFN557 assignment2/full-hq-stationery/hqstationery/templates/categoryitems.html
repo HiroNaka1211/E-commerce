@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<section>
+
+    <div style="text-align: center; padding: 20px;">
+        <h2>Select items from our list</h2>
+    </div>
+
+    <div class="container">
+        <div class = "row justify-content-center">
+        {% for item in items%}
+        <div class="card cardMg shadow col-md-6 col-lg-3">
+            <img class="card-img-top" src="{{url_for('static', filename='img/'+item.image)}}" alt="Card image">
+            <div class="card-body writingHeight">
+                <h5><a href ="{{url_for('main.itemdetails', itemid=item.id) }}" class="card-title itemName">{{item.name}}</a></h5>
+                <h5 class="card-text">${{item.price}}</h5>
+            </div>
+            
+            <div class="card-footer">
+                <a class="btn bg-primary text-white btn-outline-dark btn-block" href="{{url_for('main.itemdetails', itemid=item.id) }}" role="button">View details</a>
+                <form action="{{ url_for('main.order') }}">
+                    <input type="hidden" id="item_id" name="item_id" value="{{ item.id }}">
+                    <input class="btn bg-warning text-dark btn-outline-dark btn-block" style="margin-top: 15px;" type="submit" value="Add to Cart">
+                </form>
+            </div>
+         </div>
+        {% endfor %}
+        </div>
+    </div>
+            <h6><a href="{{ url_for('main.index', _anchor='categories_anchor') }}" style="margin-bottom: 15px; background-color: yellow;"><< Want to go back to the  categories list</a></h6>
+
+
+</section>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+  
+<div class="jumbotron jumbotron-fluid card card-image, bg" style="background-image: url({{url_for('static', filename='img/bg.jpg')}});">
+    <div class="row justify-content-center mt-5 pb-4">
+        <div class="col-md-8 texthead">
+                <h1 class="text-center ycolor">Welcome to HQ-stationery</h1>
+                <h2 class="text-center wcolor">Enjoy your shopping</h2>
+        </div>
+    </div>
+  </div>
+  {% endblock %}
+
+  {% block main %}
+  <div class="container">
+   
+  <h2 class="text-center">- Hot Sales -</h2>
+
+  
+    <div class = "row justify-content-center">
+
+            {% for item in recommend%}
+
+            <div class="card cardMg shadow col-md-3">
+                <img class="card-img-top" src="{{url_for('static', filename='img/'+item.image)}}" alt="Card image">
+                <div class="card-body writingHeight">
+                  <h5><a href ="{{url_for('main.itemdetails', itemid=item.id) }}" class="card-title itemName">{{item.name}}</a></h5>
+                    <h5 class="card-text">{{ "$%.2f"|format(item.price) }}</h5>
+                </div>
+                
+                <div class="card-footer">
+                    <a class="btn bg-primary text-white btn-outline-dark btn-block" href="{{url_for('main.itemdetails', itemid=item.id) }}" role="button">View details</a>
+                    <form action="{{ url_for('main.order') }}">
+                      <input type="hidden" id="item_id" name="item_id" value="{{ item.id }}">
+                      <input class="btn bg-warning text-dark btn-outline-dark btn-block" style="margin-top: 15px;" type="submit" value="Add to Cart">
+                  </form>
+                </div>
+             </div>
+            {% endfor %}
+            </div>
+          
+        <h2 class="text-center" id="categories_anchor">- Categories -</h2>
+      <div class="row">
+        {% for category in categories%}
+        
+          <div class="col-md-4">
+            <div class="move">
+              <div class="bg-img">
+                <a href="{{ url_for('main.categoryitems', categoryid=category.id)}}"><img src="{{url_for('static', filename='img/'+category.image)}}" class="img-fluid imgMg padForCate" alt="Card image"></a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+ </main>
+ 
+ {% endblock %}
